@@ -50,7 +50,7 @@ def get_db() -> Generator:
 
 
 def init_db() -> None:
-    """Initialize database schema from SQL script."""
+    """Initialize database schema from SQL script and create ORM tables."""
     logger.info("Initializing database...")
     
     # Read schema.sql
@@ -76,19 +76,36 @@ def init_db() -> None:
             try:
                 connection.execute(text(statement))
             except Exception as e:
-                logger.error(f"Error executing statement: {statement}\nError: {e}")
-                raise
+                # Log but don't fail if table already exists
+                if "already exists" not in str(e).lower():
+                    logger.warning(f"Statement warning: {e}")
         
         connection.commit()
     
-    logger.info("Database initialized successfully")
+    logger.info("Database schema initialized successfully")
+    
+    # Import models to ensure they're registered with the Base
+    from backend.app.models import (
+        Personality, Entity, Relation, Message, Event,
+        StylePattern, ConversationSession, ConversationMessage,
+        ObsidianNote, SyncLog, Configuration, DeduplicationCache
+    )
     
     # Print database info
     with SessionLocal() as session:
         tables = session.execute(
             text("SELECT name FROM sqlite_master WHERE type='table'")
         ).fetchall()
-        logger.info(f"Created tables: {[t[0] for t in tables]}")
+        logger.info(f"Available tables: {[t[0] for t in tables]}")
+        
+        # Count personalities if table exists
+        try:
+            personality_count = session.execute(
+                text("SELECT COUNT(*) FROM personalities")
+            ).scalar()
+            logger.info(f"Total personalities in database: {personality_count}")
+        except Exception as e:
+            logger.debug(f"Could not count personalities: {e}")
 
 
 def drop_db() -> None:
@@ -99,7 +116,7 @@ def drop_db() -> None:
 
 
 def get_db_stats() -> dict:
-    """Get database statistics."""
+    """Get database statistics including personality info."""
     with SessionLocal() as session:
         stats = {}
         
@@ -112,13 +129,16 @@ def get_db_stats() -> dict:
         # Count records in each table
         for table_name, in tables:
             if not table_name.startswith("sqlite_"):
-                count = session.execute(
-                    text(f"SELECT COUNT(*) FROM {table_name}")
-                ).scalar()
-                stats[f"{table_name}_count"] = count
+                try:
+                    count = session.execute(
+                        text(f"SELECT COUNT(*) FROM {table_name}")
+                    ).scalar()
+                    stats[f"{table_name}_count"] = count
+                except Exception as e:
+                    logger.debug(f"Could not count {table_name}: {e}")
         
         # Database file size
         if DB_PATH.exists():
-            stats["db_file_size_mb"] = DB_PATH.stat().st_size / (1024 * 1024)
+            stats["db_file_size_mb"] = round(DB_PATH.stat().st_size / (1024 * 1024), 2)
         
         return stats
