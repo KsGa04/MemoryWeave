@@ -1,0 +1,58 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <UseWPF>false</UseWPF>
+    <RootNamespace>MemoryWeave.Client</RootNamespace>
+    <AssemblyName>MemoryWeave.Client</AssemblyName>
+    <Version>1.0.0</Version>
+    <Authors>KsGa04</Authors>
+    <Description>Personal information system with adaptive dialog agent, long-term memory and semantic network building</Description>
+  </PropertyGroup>
+
+  <!-- Dependencies -->
+  <ItemGroup>
+    <!-- UI Framework -->
+    <PackageReference Include="Avalonia" Version="11.0.0" />
+    <PackageReference Include="Avalonia.Desktop" Version="11.0.0" />
+    <PackageReference Include="Avalonia.Themes.Fluent" Version="11.0.0" />
+
+    <!-- MVVM -->
+    <PackageReference Include="ReactiveUI" Version="18.5.0" />
+    <PackageReference Include="ReactiveUI.Avalonia" Version="18.5.0" />
+
+    <!-- HTTP Client -->
+    <PackageReference Include="HttpClientFactory" Version="1.0.0" />
+
+    <!-- JSON Serialization -->
+    <PackageReference Include="System.Text.Json" Version="8.0.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+
+    <!-- Telegram -->
+    <PackageReference Include="WTelegramClient" Version="2.9.45" />
+
+    <!-- Logging -->
+    <PackageReference Include="Serilog" Version="3.1.1" />
+    <PackageReference Include="Serilog.Sinks.Console" Version="5.0.1" />
+    <PackageReference Include="Serilog.Sinks.File" Version="5.0.0" />
+
+    <!-- Configuration -->
+    <PackageReference Include="Microsoft.Extensions.Configuration" Version="8.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="8.0.0" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="8.0.0" />
+
+    <!-- File Watcher -->
+    <PackageReference Include="FileWatcher" Version="2.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Views" />
+    <Folder Include="ViewModels" />
+    <Folder Include="Models" />
+    <Folder Include="Services" />
+    <Folder Include="Utils" />
+  </ItemGroup>
+
+</Project>
