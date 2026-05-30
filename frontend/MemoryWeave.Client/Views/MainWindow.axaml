@@ -1,0 +1,61 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        x:Class="MemoryWeave.Client.MainWindow"
+        Title="MemoryWeave - Personal Memory System"
+        Width="1200"
+        Height="800"
+        Icon="/Assets/logo.ico">
+  <Grid RowDefinitions="Auto,*">
+    <!-- Menu Bar -->
+    <StackPanel Grid.Row="0" Spacing="10" Padding="10" Background="#F0F0F0">
+      <TextBlock FontSize="18" FontWeight="Bold">MemoryWeave</TextBlock>
+      <TextBlock Foreground="#666">Personal Information System with AI Assistant</TextBlock>
+    </StackPanel>
+
+    <!-- Main Content -->
+    <TabControl Grid.Row="1" Padding="10">
+      <!-- Personalities Tab -->
+      <TabItem Header="👤 Personalities">
+        <StackPanel Spacing="10" Padding="10">
+          <TextBlock FontSize="14" FontWeight="Bold">Manage Your Personalities</TextBlock>
+          <!-- List will be populated from ViewModel -->
+          <TextBlock Foreground="#999">Create and manage multiple personality profiles with isolated data.</TextBlock>
+        </StackPanel>
+      </TabItem>
+
+      <!-- Chat Tab -->
+      <TabItem Header="💬 Chat">
+        <Grid RowDefinitions="*,Auto">
+          <StackPanel Grid.Row="0" Spacing="10" Padding="10">
+            <TextBlock FontSize="14" FontWeight="Bold">Chat with AI Assistant</TextBlock>
+            <TextBlock Foreground="#999">Ask questions about your memories and past events.</TextBlock>
+          </StackPanel>
+          <!-- Chat input area -->
+          <Grid Grid.Row="1" ColumnDefinitions="*,Auto" Padding="10" Height="60">
+            <TextBox Grid.Column="0" Watermark="Ask something..." Padding="10" />
+            <Button Grid.Column="1" Content="Send" Padding="20,10" Margin="10,0,0,0" />
+          </Grid>
+        </Grid>
+      </TabItem>
+
+      <!-- Settings Tab -->
+      <TabItem Header="⚙️ Settings">
+        <StackPanel Spacing="10" Padding="10">
+          <TextBlock FontSize="14" FontWeight="Bold">Settings</TextBlock>
+          <StackPanel Spacing="5">
+            <TextBlock>Telegram Connection:</TextBlock>
+            <Button Content="Connect to Telegram" Padding="10" />
+          </StackPanel>
+          <StackPanel Spacing="5">
+            <TextBlock>Obsidian Vault:</TextBlock>
+            <Button Content="Connect to Obsidian" Padding="10" />
+          </StackPanel>
+          <StackPanel Spacing="5">
+            <TextBlock>Data Synchronization:</TextBlock>
+            <Button Content="Sync Now" Padding="10" />
+          </StackPanel>
+        </StackPanel>
+      </TabItem>
+    </TabControl>
+  </Grid>
+</Window>
